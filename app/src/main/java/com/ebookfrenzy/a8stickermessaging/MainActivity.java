@@ -8,8 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
 
+    private DatabaseReference mDatabase;
     EditText username;
     Button btn_signIn;
 
@@ -21,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.editTextUserName);
         btn_signIn = findViewById(R.id.buttonSignIn);
 
+        //Connect with Firebase
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        // Redirect to Dashboard Activity after button click
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
