@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "518697084728",
+    "project_id": "a8stickermessage",
+    "storage_bucket": "a8stickermessage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518697084728:android:6d97cee566c8ee9efec3cd",
+        "android_client_info": {
+          "package_name": "com.ebookfrenzy.a8stickermessaging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "518697084728-l6nliruffh2ssrs7o36heh8lc2v9dtr2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRNTl00kRjx0-g05tGnd6bjBIYXv-5BQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "518697084728-l6nliruffh2ssrs7o36heh8lc2v9dtr2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
