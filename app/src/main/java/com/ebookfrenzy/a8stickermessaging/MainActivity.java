@@ -1,7 +1,6 @@
 package com.ebookfrenzy.a8stickermessaging;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
