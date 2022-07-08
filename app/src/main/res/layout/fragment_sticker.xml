@@ -7,6 +7,9 @@
     tools:context=".Fragments.StickerFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <GridLayout
         android:columnCount="2"
         android:rowCount="3"
@@ -176,5 +179,6 @@
         </androidx.cardview.widget.CardView>
 
     </GridLayout>
+    </ScrollView>
 
 </FrameLayout>
