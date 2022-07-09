@@ -14,6 +14,8 @@ public class User {
     // history ArrayList contains sender's list
     //private ArrayList history;
 
+    public User(){}
+
     public User(String id, String username){
         this.id = id;
         this.username = username;

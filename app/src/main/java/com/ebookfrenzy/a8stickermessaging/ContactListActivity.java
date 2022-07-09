@@ -31,14 +31,14 @@ public class ContactListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact_list);
 
         //Instantiate the arraylist
+        contactLists = new ArrayList<>();
 
         contactListRecyclerView = findViewById(R.id.rv_contactListRecyclerView);
-
         contactListRecyclerView.setHasFixedSize(true);
         contactListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         contactListRecyclerView.setAdapter(new ContactListAdapter(contactLists, this));
 
-        contactLists = new ArrayList<>();
+
         databaseReferencer = FirebaseDatabase.getInstance().getReference("Users");
         databaseReferencer.addValueEventListener(new ValueEventListener() {
             @Override

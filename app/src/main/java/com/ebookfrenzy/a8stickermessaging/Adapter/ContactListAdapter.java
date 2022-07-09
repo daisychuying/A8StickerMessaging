@@ -27,7 +27,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.contact_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.contact_item, null);
         return new ContactListAdapter.ContactViewHolder(view);
     }
 
@@ -53,7 +53,6 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
         public void bindThisData (User contactToBind) {
             contactName.setText(contactToBind.getUsername());
-            userimage.setImageResource(R.mipmap.ic_launcher);
         }
     }
 }
