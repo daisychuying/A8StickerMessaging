@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ebookfrenzy.a8stickermessaging.Fragments.HistoryFragment;
@@ -57,6 +58,11 @@ public class DashboardActivity extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    public void onClick(View view){
+        Intent intent = new Intent(this, ContactListActivity.class);
+        startActivity(intent);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
