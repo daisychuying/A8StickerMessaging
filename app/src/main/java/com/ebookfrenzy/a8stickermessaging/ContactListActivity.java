@@ -57,9 +57,10 @@ public class ContactListActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                         User contactUser = dataSnapshot.getValue(User.class);
                         contactLists.add(contactUser);
-                        contactListAdapter = new ContactListAdapter(contactLists, ContactListActivity.this);
-                        contactListRecyclerView.setAdapter(contactListAdapter);
+
                 }
+                contactListAdapter = new ContactListAdapter(contactLists, ContactListActivity.this);
+                contactListRecyclerView.setAdapter(contactListAdapter);
             }
 
             @Override
