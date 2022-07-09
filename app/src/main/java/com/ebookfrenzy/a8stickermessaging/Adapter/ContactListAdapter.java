@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,14 +27,13 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.contact_item, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.contact_item, parent, false);
         return new ContactListAdapter.ContactViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        User contact = userList.get(position);
-
+        holder.bindThisData(userList.get(position));
     }
 
     @Override
@@ -43,14 +43,17 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     public class ContactViewHolder extends RecyclerView.ViewHolder{
         public TextView contactName;
+        public ImageView userimage;
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.userimage = itemView.findViewById(R.id.user_image);
             this.contactName = itemView.findViewById(R.id.username);
         }
 
-        public void bindThisData(User userToBind){
-            contactName.setText(userToBind.getUsername());
+        public void bindThisData (User contactToBind) {
+            contactName.setText(contactToBind.getUsername());
+            userimage.setImageResource(R.mipmap.ic_launcher);
         }
     }
 }
