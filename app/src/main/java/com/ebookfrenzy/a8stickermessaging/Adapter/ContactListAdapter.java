@@ -8,10 +8,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ebookfrenzy.a8stickermessaging.Model.User;
 import com.ebookfrenzy.a8stickermessaging.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 import java.util.List;
 
@@ -34,6 +40,32 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         holder.bindThisData(userList.get(position));
+        holder.contactName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                addStickerCount(id);
+            }
+        });
+    }
+
+    public void addStickerCount(DatabaseReference databaseReference, Integer id){
+        databaseReference.child("Users")
+                .child("StickerCount")
+                .child(String.valueOf(id))
+                .runTransaction(new Transaction.Handler() {
+                    @NonNull
+                    @Override
+                    public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                        User user = currentData.getValue(User.class);
+
+                        return Transaction.success(currentData);
+                    }
+
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+
+                    }
+                });
     }
 
     @Override

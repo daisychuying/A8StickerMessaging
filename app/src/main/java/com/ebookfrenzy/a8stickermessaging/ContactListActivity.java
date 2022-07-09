@@ -50,7 +50,6 @@ public class ContactListActivity extends AppCompatActivity {
                         contactListAdapter = new ContactListAdapter(contactLists, ContactListActivity.this);
                         contactListRecyclerView.setAdapter(contactListAdapter);
                 }
-
             }
 
             @Override

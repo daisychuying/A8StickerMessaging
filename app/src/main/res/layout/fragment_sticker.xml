@@ -80,6 +80,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:onClick="onClick"
                     android:src="@drawable/ic_pepe_cry">
                 </ImageView>
 
@@ -116,6 +117,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:onClick="onClick"
                     android:src="@drawable/ic_sea_hello">
                 </ImageView>
 
@@ -152,6 +154,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:onClick="onClick"
                     android:src="@drawable/ic_cat_hi">
                 </ImageView>
 
@@ -189,6 +192,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_sticker_dog_awkward"
+                    android:onClick="onClick"
                     android:contentDescription="TODO">
                 </ImageView>
 
@@ -226,6 +230,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:onClick="onClick"
                     android:src="@drawable/ic_wow_happy">
                 </ImageView>
 
