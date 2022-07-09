@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_signIn;
 
     FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,5 +103,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            startActivity(new Intent(MainActivity.this, DashboardActivity.class));
+            finish();
+        }
     }
 }
