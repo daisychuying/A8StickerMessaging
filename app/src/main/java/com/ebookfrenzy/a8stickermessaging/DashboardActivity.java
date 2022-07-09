@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ebookfrenzy.a8stickermessaging.Fragments.HistoryFragment;
@@ -33,6 +34,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     TextView username;
+    ImageView logout;
 
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
@@ -46,6 +48,16 @@ public class DashboardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         username = findViewById(R.id.username);
+
+        logout = findViewById(R.id.btn_logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(DashboardActivity.this, MainActivity.class));
+                finish();
+            }
+        });
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -74,6 +86,7 @@ public class DashboardActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(new HistoryFragment(), "History");
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
 
     }
 
