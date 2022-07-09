@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put("username", username);
                     mDatabase.child("Users").push().setValue(hashMap);
-                    startActivity(new Intent(MainActivity.this, DashboardActivity.class));
+                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                    intent.putExtra("username", username);
+                    startActivity(intent);
                 }
             }
         });

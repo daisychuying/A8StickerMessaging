@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -24,6 +25,8 @@ public class DashboardActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView username;
 
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,12 @@ public class DashboardActivity extends AppCompatActivity {
 
         username = findViewById(R.id.username);
 
+        intent = getIntent();
+        String userName = intent.getStringExtra("username");
+
+        username.setText(userName);
+
+        // Fragment View
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
 
