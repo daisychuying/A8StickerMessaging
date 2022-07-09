@@ -54,9 +54,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             sticker = itemView.findViewById(R.id.sticker);
             sentName = itemView.findViewById(R.id.sentName);
             sentTime = itemView.findViewById(R.id.time);
-
-
-
         }
     }
 }
