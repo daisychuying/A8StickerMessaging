@@ -2,6 +2,7 @@ package com.ebookfrenzy.a8stickermessaging;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class ContactListActivity extends AppCompatActivity {
     RecyclerView contactListRecyclerView;
     List<User> contactLists;
+    Toolbar toolbar;
 
     DatabaseReference databaseReferencer;
     ContactListAdapter contactListAdapter;
@@ -29,6 +31,14 @@ public class ContactListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
+
+
+        // set up contactlist toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Contacts");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         //Instantiate the arraylist
         contactLists = new ArrayList<>();
