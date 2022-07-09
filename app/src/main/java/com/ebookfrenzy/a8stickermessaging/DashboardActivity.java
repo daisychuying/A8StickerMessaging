@@ -38,10 +38,10 @@ public class DashboardActivity extends AppCompatActivity {
 
         username = findViewById(R.id.username);
 
-        intent = getIntent();
-        String userName = intent.getStringExtra("username");
+        //intent = getIntent();
+        //String userName = intent.getStringExtra("username");
 
-        username.setText(userName);
+        username.setText("username");
 
         // Fragment View
         TabLayout tabLayout = findViewById(R.id.tab_layout);
