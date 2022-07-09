@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ebookfrenzy.a8stickermessaging.Model.StickerMap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -81,10 +82,17 @@ public class MainActivity extends AppCompatActivity {
                             assert firebaseUser != null;
                             String userid = firebaseUser.getUid();
 
+                            // sticker sent Hashmap
+                            HashMap stickerCount = new HashMap<>();
+                            for (int i = 0; i < new StickerMap().size(); i++){
+                                stickerCount.put(String.valueOf(i), 0);
+                            }
+
                             databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
                             HashMap<String, Object> hashMap = new HashMap<>();
                             hashMap.put("id", userid);
                             hashMap.put("username", username);
+                            hashMap.put("stickerCount", stickerCount);
 
                             databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

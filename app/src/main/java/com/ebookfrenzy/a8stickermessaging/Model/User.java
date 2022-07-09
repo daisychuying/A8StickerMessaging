@@ -10,17 +10,19 @@ public class User {
     private String username;
 
     // stickerCount Map contains an ID and corresponding sent number
-    //private Map<Integer, Integer> stickerCount;
+    private Map<String, Integer> stickerCount;
     // history ArrayList contains sender's list
-    //private ArrayList history;
+//    private ArrayList history;
 
     public User(){}
 
     public User(String id, String username){
         this.id = id;
         this.username = username;
-        //this.stickerCount = new HashMap<>();
-        //this.history = new ArrayList();
+        this.stickerCount = new HashMap<>();
+        for (int i = 0; i < new StickerMap().size(); i++){
+            stickerCount.put(String.valueOf(i), 0);
+        }
     }
 
     public String getId() {
