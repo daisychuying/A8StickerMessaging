@@ -1,6 +1,7 @@
 package com.ebookfrenzy.a8stickermessaging.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.contactName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Bundle extras;
+
 //                addStickerCount(id);
             }
         });
