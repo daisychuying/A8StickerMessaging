@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="TVEmoji_1_Freq" type="id" />
+    <item name="TVEmoji_2_Freq" type="id" />
+    <item name="TVEmoji_3_Freq" type="id" />
+    <item name="TVEmoji_4_Freq" type="id" />
+    <item name="TVEmoji_5_Freq" type="id" />
+    <item name="TVEmoji_6_Freq" type="id" />
+</resources>
