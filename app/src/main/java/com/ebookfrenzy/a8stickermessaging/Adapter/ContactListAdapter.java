@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -165,8 +167,9 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     public void sendNotification(Integer stickerid, String senderName){
         Intent intent = new Intent(context, ReceiveNotificationActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
-        PendingIntent callIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
+        PendingIntent receiveIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
                 new Intent(context, ReceiveNotificationActivity.class), 0);
+//        Notification.Action action = new Notification.Action.Builder(R.drawable.ic_launcher_foreground, "Check", receiveIntent).build();
 
         Notification.Builder builder = new Notification.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -174,7 +177,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 .setContentTitle(senderName)
                 .setContentText("Sent you a new sticker!")
                 .setAutoCancel(true)
-                .addAction(R.drawable.ic_launcher_foreground, "Check", callIntent)
+//                .addAction(action)
                 .setContentIntent(pIntent);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
