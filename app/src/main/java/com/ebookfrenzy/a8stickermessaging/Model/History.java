@@ -13,7 +13,6 @@ public class History {
     private String receiverName;
     private int sticker;
     private long timeStamp;
-    //
     private boolean notified;
 
     public History(){}

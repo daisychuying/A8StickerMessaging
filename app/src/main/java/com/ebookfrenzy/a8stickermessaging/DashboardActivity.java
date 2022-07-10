@@ -39,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -49,7 +50,6 @@ public class DashboardActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
     DatabaseReference databaseReferenceNotification;
-    ArrayList historyList;
     private String CHANNEL_ID = "NUMAD_22SU_Team11";
 
 
@@ -97,16 +97,21 @@ public class DashboardActivity extends AppCompatActivity {
         databaseReferenceNotification.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                historyList.clear();
                 String userid = firebaseUser.getUid();
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()){
                     History history = dataSnapshot.getValue(History.class);
 
                     if (history.getReceiverId().equals(userid)){
-                        Integer stickerid = history.getSticker();
-                        String senderName = history.getSenderName();
-                        createNotificationChannel();
-                        sendNotification(stickerid, senderName);
+                        if (!history.isNotified()) {
+                            Integer stickerid = history.getSticker();
+                            String senderName = history.getSenderName();
+                            createNotificationChannel();
+                            sendNotification(stickerid, senderName);
+
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("notified", true);
+                            dataSnapshot.getRef().updateChildren(hashMap);
+                        }
                     }
                 }
 
