@@ -13,16 +13,19 @@ public class History {
     private String receiverName;
     private int sticker;
     private long timeStamp;
+    //
+    private boolean notified;
 
     public History(){}
 
-    public History(String senderId, String senderName, String receiverId, String receiverName, int sticker, long timeStamp) {
+    public History(String senderId, String senderName, String receiverId, String receiverName, int sticker, long timeStamp, boolean notified) {
         this.senderId = senderId;
         this.senderName = senderName;
         this.receiverId = receiverId;
         this.receiverName = receiverName;
         this.sticker = sticker;
         this.timeStamp = timeStamp;
+        this.notified = notified;
     }
 
     public String getSenderId() {
@@ -72,6 +75,10 @@ public class History {
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
+
+    public boolean isNotified() {return notified;}
+
+    public void setNotified(boolean notified) {this.notified = notified;}
 
     public String convertTimestamp() {
         Timestamp ts = new Timestamp(this.timeStamp);

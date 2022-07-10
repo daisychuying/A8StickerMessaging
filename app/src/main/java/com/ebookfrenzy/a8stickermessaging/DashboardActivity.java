@@ -4,13 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +25,8 @@ import android.widget.TextView;
 
 import com.ebookfrenzy.a8stickermessaging.Fragments.HistoryFragment;
 import com.ebookfrenzy.a8stickermessaging.Fragments.StickerFragment;
+import com.ebookfrenzy.a8stickermessaging.Model.History;
+import com.ebookfrenzy.a8stickermessaging.Model.StickerMap;
 import com.ebookfrenzy.a8stickermessaging.Model.User;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +47,9 @@ public class DashboardActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
+    DatabaseReference databaseReferenceNotification;
+    ArrayList historyList;
+    private String CHANNEL_ID = "NUMAD_22SU_Team11";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +90,33 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
+        /** Newly Added */
+        databaseReferenceNotification = FirebaseDatabase.getInstance().getReference("History");
+        databaseReferenceNotification.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                historyList.clear();
+                String userid = firebaseUser.getUid();
+                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    History history = dataSnapshot.getValue(History.class);
+
+                    if (history.getReceiverId().equals(userid)){
+                        Integer stickerid = history.getSticker();
+                        String senderName = history.getSenderName();
+                        createNotificationChannel();
+                        sendNotification(stickerid, senderName);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         // Fragment View
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -91,6 +130,46 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
+    /** newly Added */
+    public void sendNotification(Integer stickerid, String senderName){
+        Intent intent = new Intent(this, ReceiveNotificationActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent receiveIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(),
+                new Intent(this, ReceiveNotificationActivity.class), PendingIntent.FLAG_IMMUTABLE);
+//        Notification.Action action = new Notification.Action.Builder(R.drawable.ic_launcher_foreground, "Check", receiveIntent).build();
+
+        Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), StickerMap.getStickerId(stickerid)))
+                .setContentTitle(senderName)
+                .setContentText("Sent you a new sticker!")
+                .setAutoCancel(true)
+//                .addAction(action)
+                .setContentIntent(pIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        // // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(0, builder.build());
+
+    }
+
+    /** Newly Added */
+    public void createNotificationChannel() {
+        // This must be called early because it must be called before a notification is sent.
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = CHANNEL_ID;
+            String description = "Notification Channel description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = this.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
     public void onClick(View view){
         Intent intent = new Intent(this, ContactListActivity.class);
         int stickerid;

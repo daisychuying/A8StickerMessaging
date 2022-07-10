@@ -108,6 +108,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
+        /** History Realtime Database*/
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("senderId", senderId);
         hashMap.put("senderName", senderName);
@@ -115,6 +116,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         hashMap.put("receiverName", receiverName);
         hashMap.put("sticker", stickerid);
         hashMap.put("timeStamp", System.currentTimeMillis());
+        hashMap.put("notified", true);
+
 
         databaseReference.child("History").push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -122,14 +125,15 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Send successfully!", Toast.LENGTH_SHORT).show();
                     addStickerCount(senderId, stickerid);
-                    createNotificationChannel();
-                    sendNotification(stickerid, senderName);
+//                    createNotificationChannel();
+//                    sendNotification(stickerid, senderName);
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
                     Toast.makeText(context, "Unable to send!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
 
