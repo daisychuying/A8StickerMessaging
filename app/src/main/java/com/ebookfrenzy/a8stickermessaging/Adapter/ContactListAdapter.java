@@ -51,6 +51,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
 
+
     public ContactListAdapter(List<User> user, Context context, int stickerid) {
         this.userList = user;
         this.context = context;
@@ -71,6 +72,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String receiverId = contact.getId();
                 String receiverName = contact.getUsername();
 

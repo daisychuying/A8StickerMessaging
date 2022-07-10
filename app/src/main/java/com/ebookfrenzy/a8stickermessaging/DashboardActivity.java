@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ebookfrenzy.a8stickermessaging.Adapter.ContactListAdapter;
 import com.ebookfrenzy.a8stickermessaging.Fragments.HistoryFragment;
 import com.ebookfrenzy.a8stickermessaging.Fragments.StickerFragment;
 import com.ebookfrenzy.a8stickermessaging.Model.History;
@@ -50,6 +51,7 @@ public class DashboardActivity extends AppCompatActivity {
     DatabaseReference databaseReferenceNotification;
     ArrayList historyList;
     private String CHANNEL_ID = "NUMAD_22SU_Team11";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
