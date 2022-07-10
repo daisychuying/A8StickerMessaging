@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ebookfrenzy.a8stickermessaging.DashboardActivity;
+import com.ebookfrenzy.a8stickermessaging.Model.StickerMap;
 import com.ebookfrenzy.a8stickermessaging.Model.User;
 import com.ebookfrenzy.a8stickermessaging.R;
 import com.ebookfrenzy.a8stickermessaging.ReceiveNotificationActivity;
@@ -119,7 +121,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                     Toast.makeText(context, "Send successfully!", Toast.LENGTH_SHORT).show();
                     addStickerCount(senderId, stickerid);
                     createNotificationChannel();
-                    sendNotification();
+                    sendNotification(stickerid, senderName);
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
                     Toast.makeText(context, "Unable to send!", Toast.LENGTH_SHORT).show();
@@ -160,7 +162,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     }
 
     /** newly Added */
-    public void sendNotification(){
+    public void sendNotification(Integer stickerid, String senderName){
         Intent intent = new Intent(context, ReceiveNotificationActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
         PendingIntent callIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
@@ -168,10 +170,11 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
         Notification.Builder builder = new Notification.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("New mail from")
-                .setContentText("Subject")
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),StickerMap.getStickerId(stickerid)))
+                .setContentTitle(senderName)
+                .setContentText("Sent you a new sticker!")
                 .setAutoCancel(true)
-                .addAction(R.drawable.ic_launcher_foreground, "Call", callIntent)
+                .addAction(R.drawable.ic_launcher_foreground, "Check", callIntent)
                 .setContentIntent(pIntent);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);

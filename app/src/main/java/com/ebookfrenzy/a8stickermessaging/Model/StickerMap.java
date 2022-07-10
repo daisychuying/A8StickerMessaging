@@ -16,7 +16,8 @@ public class StickerMap {
         stickerMap.put(5, R.drawable.ic_wow_happy);
     }
 
-    public int getStickerId(int id) {
+    public static int getStickerId(int id) {
+//        return stickerMap.get(id);
         return stickerMap.getOrDefault(id, R.drawable.ic_image_broken);
     }
 
