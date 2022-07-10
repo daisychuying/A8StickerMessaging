@@ -17,7 +17,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/sticker"
-        android:text="from username"
+        android:text="@string/from_username"
         android:textSize="18sp" />
 
     <TextView
