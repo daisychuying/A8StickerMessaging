@@ -73,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * register account on firebase if username doesnt exist
+     * @param username
+     * @param useremail
+     */
+
     private void register(String username, String useremail) {
         firebaseAuth.createUserWithEmailAndPassword(useremail, "000000")
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

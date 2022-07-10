@@ -48,7 +48,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.contact_item, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.contact_item, parent, false);
         return new ContactListAdapter.ContactViewHolder(view);
     }
 
@@ -83,6 +83,15 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     }
 
+    /**
+     * Send sticker feature with update on firebase
+     * @param senderId
+     * @param senderName
+     * @param receiverId
+     * @param receiverName
+     * @param stickerid
+     */
+
     private void sendSticker(String senderId, String senderName, String receiverId, String receiverName, int stickerid) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -109,6 +118,12 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         });
     }
 
+
+    /**
+     * Add one to sender's sticker hashmap associated with stickerid
+     * @param senderId
+     * @param stickerid
+     */
     private void addStickerCount(String senderId, int stickerid) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Users").child(senderId)

@@ -60,7 +60,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         private void bindThisData(History historyToBind) {
             sticker.setImageResource(new StickerMap().getStickerId(historyToBind.getSticker()));
             sender.setText("from " + historyToBind.getSenderName());
-            sentTime.setText(historyToBind.generateFormattedTimestamp());
+            sentTime.setText(historyToBind.convertTimestamp());
 
 
         }

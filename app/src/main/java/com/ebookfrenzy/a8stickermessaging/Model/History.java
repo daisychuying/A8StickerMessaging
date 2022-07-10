@@ -73,7 +73,7 @@ public class History {
         this.timeStamp = timeStamp;
     }
 
-    public String generateFormattedTimestamp() {
+    public String convertTimestamp() {
         Timestamp ts = new Timestamp(this.timeStamp);
         Date date = new Date(ts.getTime());
         SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault());
