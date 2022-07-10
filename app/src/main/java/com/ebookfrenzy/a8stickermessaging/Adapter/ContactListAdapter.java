@@ -166,9 +166,9 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     /** newly Added */
     public void sendNotification(Integer stickerid, String senderName){
         Intent intent = new Intent(context, ReceiveNotificationActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
+        PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_IMMUTABLE);
         PendingIntent receiveIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
-                new Intent(context, ReceiveNotificationActivity.class), 0);
+                new Intent(context, ReceiveNotificationActivity.class), PendingIntent.FLAG_IMMUTABLE);
 //        Notification.Action action = new Notification.Action.Builder(R.drawable.ic_launcher_foreground, "Check", receiveIntent).build();
 
         Notification.Builder builder = new Notification.Builder(context, CHANNEL_ID)
