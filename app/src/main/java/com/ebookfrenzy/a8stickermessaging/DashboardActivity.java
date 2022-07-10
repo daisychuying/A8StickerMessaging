@@ -93,27 +93,31 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void onClick(View view){
         Intent intent = new Intent(this, ContactListActivity.class);
+        int stickerid;
         switch (view.getId()){
             case R.id.emoji1:
-                intent.putExtra("id", 0);
+                stickerid = 0;
                 break;
             case R.id.emoji2:
-                intent.putExtra("id", 1);
+                stickerid = 1;
                 break;
             case R.id.emoji3:
-                intent.putExtra("id", 2);
+                stickerid = 2;
                 break;
             case R.id.emoji4:
-                intent.putExtra("id", 3);
+                stickerid = 3;
                 break;
             case R.id.emoji5:
-                intent.putExtra("id", 4);
+                stickerid = 4;
                 break;
             case R.id.emoji6:
-                intent.putExtra("id", 5);
+                stickerid = 5;
+                break;
+            default:
+                stickerid = -1;
                 break;
         }
-
+        intent.putExtra("id", stickerid);
         startActivity(intent);
     }
 

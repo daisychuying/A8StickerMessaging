@@ -43,7 +43,7 @@
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="TODO"
                     android:onClick="onClick"
-                    android:src="@drawable/ic_ok_hand"></ImageView>
+                    android:src="@drawable/ic_ok_hand" />
 
                 <TextView
                     android:id="@id/TVEmoji_1_Freq"
