@@ -53,6 +53,14 @@ public class DashboardActivity extends AppCompatActivity {
     private String CHANNEL_ID = "NUMAD_22SU_Team11";
 
 
+    // back to the login page
+    @Override
+    public void onBackPressed() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(DashboardActivity.this, MainActivity.class));
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
