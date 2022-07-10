@@ -65,7 +65,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 String senderId = firebaseUser.getUid();
                 databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(senderId);
-                databaseReference.addValueEventListener(new ValueEventListener() {
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         User user = snapshot.getValue(User.class);
@@ -100,11 +100,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Send successfully!", Toast.LENGTH_SHORT).show();
-                    /**
-                     * unresolve issue continuing add one to sticker without stopping
-                     * Jiayi Nie
-                     */
-                    //addStickerCount(senderId, stickerid);
+                    addStickerCount(senderId, stickerid);
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
                     Toast.makeText(context, "Unable to send!", Toast.LENGTH_SHORT).show();
@@ -136,24 +132,6 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
                     }
                 });
-
-//        databaseReference.child("Users").child(senderId)
-//                .addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        User user = snapshot.getValue(User.class);
-//                        user.addStickerCount(stickerid + "_key");
-//                        HashMap<String, Object> hashMap = new HashMap<>();
-//                        hashMap.put("stickerCount", user.getStickerCount());
-//                        snapshot.getRef().updateChildren(hashMap);
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-
     }
 
     @Override
