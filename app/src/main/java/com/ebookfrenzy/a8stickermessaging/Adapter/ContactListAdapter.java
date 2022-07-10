@@ -14,21 +14,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ebookfrenzy.a8stickermessaging.Model.User;
 import com.ebookfrenzy.a8stickermessaging.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactViewHolder>{
     private final List<User> userList;
     private final Context context;
+    private final String stickerid;
 
-    public ContactListAdapter(List<User> user, Context context) {
+    public ContactListAdapter(List<User> user, Context context, String stickerid) {
         this.userList = user;
         this.context = context;
+        this.stickerid = stickerid;
     }
 
     @NonNull
@@ -40,36 +46,48 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
+        final User contact = userList.get(position);
         holder.bindThisData(userList.get(position));
-        holder.contactName.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle extras;
-
-//                addStickerCount(id);
+                String receiver = contact.getUsername();
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                sendSticker(firebaseUser.getUid(), receiver, stickerid);
             }
         });
     }
 
-    public void addStickerCount(DatabaseReference databaseReference, Integer id){
-        databaseReference.child("Users")
-                .child("StickerCount")
-                .child(String.valueOf(id))
-                .runTransaction(new Transaction.Handler() {
-                    @NonNull
-                    @Override
-                    public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-                        User user = currentData.getValue(User.class);
+    private void sendSticker(String sender, String receiver, String stickerid) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
-                        return Transaction.success(currentData);
-                    }
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender", sender);
+        hashMap.put("receiver", receiver);
+        hashMap.put("sticker", stickerid);
 
-                    @Override
-                    public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
-
-                    }
-                });
+        databaseReference.child("History").push().setValue(hashMap);
     }
+
+//    public void addStickerCount(DatabaseReference databaseReference, Integer id){
+//        databaseReference.child("Users")
+//                .child("StickerCount")
+//                .child(String.valueOf(id))
+//                .runTransaction(new Transaction.Handler() {
+//                    @NonNull
+//                    @Override
+//                    public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+//                        User user = currentData.getValue(User.class);
+//
+//                        return Transaction.success(currentData);
+//                    }
+//
+//                    @Override
+//                    public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+//
+//                    }
+//                });
+//    }
 
     @Override
     public int getItemCount() {

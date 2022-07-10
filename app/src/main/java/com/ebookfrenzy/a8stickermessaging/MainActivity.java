@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // user auto login
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             startActivity(new Intent(MainActivity.this, DashboardActivity.class));

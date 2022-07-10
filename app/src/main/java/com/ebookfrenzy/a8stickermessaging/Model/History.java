@@ -7,6 +7,8 @@ public class History {
     private String stickerId;
     private String time;
 
+    public History(){}
+
     public History(String sender, String receiver, String stickerId, String time) {
         this.sender = sender;
         this.receiver = receiver;

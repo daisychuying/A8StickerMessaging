@@ -61,11 +61,11 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 historyList.clear();
-
+                String userid = firebaseUser.getUid();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     History history = dataSnapshot.getValue(History.class);
 
-                    if (history.getSender().equals(firebaseUser.getUid()) || history.getReceiver().equals(firebaseUser.getUid())) {
+                    if (history.getSender().equals(userid) || history.getReceiver().equals(userid)) {
                         historyList.add(history);
                     }
                 }

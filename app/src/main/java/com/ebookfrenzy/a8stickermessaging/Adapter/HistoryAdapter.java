@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ebookfrenzy.a8stickermessaging.Model.History;
+import com.ebookfrenzy.a8stickermessaging.Model.StickerMap;
 import com.ebookfrenzy.a8stickermessaging.R;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        History history = historyList.get(position);
+        holder.bindThisData(historyList.get(position));
     }
 
     @Override
@@ -45,15 +46,25 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView sticker;
-        public TextView sentName;
+        public TextView sender;
         public TextView sentTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             sticker = itemView.findViewById(R.id.sticker);
-            sentName = itemView.findViewById(R.id.sentName);
+            sender = itemView.findViewById(R.id.sender);
             sentTime = itemView.findViewById(R.id.time);
+        }
+
+        private void bindThisData(History historyToBind) {
+            StickerMap stickerMap = new StickerMap();
+            //sticker.setImageResource(stickerMap.getStickerId(historyToBind.getStickerId()));
+            sticker.setImageResource(R.mipmap.ic_launcher);
+            sender.setText("from " + historyToBind.getSender());
+            sentTime.setText(historyToBind.getTime());
+
+
         }
     }
 }

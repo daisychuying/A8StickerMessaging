@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.ebookfrenzy.a8stickermessaging.Adapter.ContactListAdapter;
@@ -24,6 +25,8 @@ public class ContactListActivity extends AppCompatActivity {
     List<User> contactLists;
     Toolbar toolbar;
 
+    Intent intent;
+
     DatabaseReference databaseReferencer;
     ContactListAdapter contactListAdapter;
 
@@ -39,6 +42,8 @@ public class ContactListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Contacts");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        intent = getIntent();
+        String stickerid = intent.getStringExtra("id");
 
         //Instantiate the arraylist
         contactLists = new ArrayList<>();
@@ -46,7 +51,6 @@ public class ContactListActivity extends AppCompatActivity {
         contactListRecyclerView = findViewById(R.id.rv_contactListRecyclerView);
         contactListRecyclerView.setHasFixedSize(true);
         contactListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        contactListRecyclerView.setAdapter(new ContactListAdapter(contactLists, this));
 
 
         databaseReferencer = FirebaseDatabase.getInstance().getReference("Users");
@@ -59,7 +63,7 @@ public class ContactListActivity extends AppCompatActivity {
                         contactLists.add(contactUser);
 
                 }
-                contactListAdapter = new ContactListAdapter(contactLists, ContactListActivity.this);
+                contactListAdapter = new ContactListAdapter(contactLists, ContactListActivity.this, stickerid);
                 contactListRecyclerView.setAdapter(contactListAdapter);
             }
 
