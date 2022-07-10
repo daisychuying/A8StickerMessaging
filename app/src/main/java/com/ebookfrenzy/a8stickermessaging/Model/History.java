@@ -1,50 +1,82 @@
 package com.ebookfrenzy.a8stickermessaging.Model;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 public class History {
 
-    private String sender;
-    private String receiver;
-    private String stickerId;
-    private String time;
+    private String senderId;
+    private String senderName;
+    private String receiverId;
+    private String receiverName;
+    private int sticker;
+    private long timeStamp;
 
     public History(){}
 
-    public History(String sender, String receiver, String stickerId, String time) {
-        this.sender = sender;
-        this.receiver = receiver;
-        this.stickerId = stickerId;
-        this.time = time;
+    public History(String senderId, String senderName, String receiverId, String receiverName, int sticker, long timeStamp) {
+        this.senderId = senderId;
+        this.senderName = senderName;
+        this.receiverId = receiverId;
+        this.receiverName = receiverName;
+        this.sticker = sticker;
+        this.timeStamp = timeStamp;
     }
 
-    public String getSender() {
-        return sender;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
 
-    public String getReceiver() {
-        return receiver;
+    public String getSenderName() {
+        return senderName;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
-    public String getStickerId() {
-        return stickerId;
+    public String getReceiverId() {
+        return receiverId;
     }
 
-    public void setStickerId(String stickerId) {
-        this.stickerId = stickerId;
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
     }
 
-    public String getTime() {
-        return time;
+    public String getReceiverName() {
+        return receiverName;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public int getSticker() {
+        return sticker;
+    }
+
+    public void setSticker(int sticker) {
+        this.sticker = sticker;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public String generateFormattedTimestamp() {
+        Timestamp ts = new Timestamp(this.timeStamp);
+        Date date = new Date(ts.getTime());
+        SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault());
+        return format.format(date);
     }
 }

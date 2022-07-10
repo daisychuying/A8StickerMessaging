@@ -11,6 +11,8 @@ import android.os.Bundle;
 
 import com.ebookfrenzy.a8stickermessaging.Adapter.ContactListAdapter;
 import com.ebookfrenzy.a8stickermessaging.Model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +29,7 @@ public class ContactListActivity extends AppCompatActivity {
 
     Intent intent;
 
+    FirebaseUser firebaseUser;
     DatabaseReference databaseReferencer;
     ContactListAdapter contactListAdapter;
 
@@ -43,7 +46,7 @@ public class ContactListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         intent = getIntent();
-        String stickerid = intent.getStringExtra("id");
+        int stickerid = intent.getIntExtra("id", -1);
 
         //Instantiate the arraylist
         contactLists = new ArrayList<>();
@@ -52,7 +55,7 @@ public class ContactListActivity extends AppCompatActivity {
         contactListRecyclerView.setHasFixedSize(true);
         contactListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReferencer = FirebaseDatabase.getInstance().getReference("Users");
         databaseReferencer.addValueEventListener(new ValueEventListener() {
             @Override
@@ -60,8 +63,9 @@ public class ContactListActivity extends AppCompatActivity {
                 contactLists.clear();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                         User contactUser = dataSnapshot.getValue(User.class);
-                        contactLists.add(contactUser);
-
+                        if (!contactUser.getId().equals(firebaseUser.getUid())){
+                            contactLists.add(contactUser);
+                        }
                 }
                 contactListAdapter = new ContactListAdapter(contactLists, ContactListActivity.this, stickerid);
                 contactListRecyclerView.setAdapter(contactListAdapter);

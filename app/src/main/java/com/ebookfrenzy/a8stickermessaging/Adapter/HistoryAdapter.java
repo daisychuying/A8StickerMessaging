@@ -58,11 +58,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         }
 
         private void bindThisData(History historyToBind) {
-            StickerMap stickerMap = new StickerMap();
-            //sticker.setImageResource(stickerMap.getStickerId(historyToBind.getStickerId()));
-            sticker.setImageResource(R.mipmap.ic_launcher);
-            sender.setText("from " + historyToBind.getSender());
-            sentTime.setText(historyToBind.getTime());
+            sticker.setImageResource(new StickerMap().getStickerId(historyToBind.getSticker()));
+            sender.setText("from " + historyToBind.getSenderName());
+            sentTime.setText(historyToBind.generateFormattedTimestamp());
 
 
         }

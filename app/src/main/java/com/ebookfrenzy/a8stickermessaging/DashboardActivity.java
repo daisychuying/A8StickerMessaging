@@ -92,39 +92,29 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void onClick(View view){
+        Intent intent = new Intent(this, ContactListActivity.class);
         switch (view.getId()){
             case R.id.emoji1:
-                Intent intent1 = new Intent(this, ContactListActivity.class);
-                intent1.putExtra("id", "0");
-                startActivity(intent1);
+                intent.putExtra("id", 0);
                 break;
             case R.id.emoji2:
-                Intent intent2 = new Intent(this, ContactListActivity.class);
-                intent2.putExtra("id", "1");
-                startActivity(intent2);
+                intent.putExtra("id", 1);
                 break;
             case R.id.emoji3:
-                Intent intent3 = new Intent(this, ContactListActivity.class);
-                intent3.putExtra("id", "2");
-                startActivity(intent3);
+                intent.putExtra("id", 2);
                 break;
             case R.id.emoji4:
-                Intent intent4 = new Intent(this, ContactListActivity.class);
-                intent4.putExtra("id", "3");
-                startActivity(intent4);
+                intent.putExtra("id", 3);
                 break;
             case R.id.emoji5:
-                Intent intent5 = new Intent(this, ContactListActivity.class);
-                intent5.putExtra("id", "4");
-                startActivity(intent5);
+                intent.putExtra("id", 4);
                 break;
             case R.id.emoji6:
-                Intent intent6 = new Intent(this, ContactListActivity.class);
-                intent6.putExtra("id", "5");
-                startActivity(intent6);
+                intent.putExtra("id", 5);
                 break;
-
         }
+
+        startActivity(intent);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

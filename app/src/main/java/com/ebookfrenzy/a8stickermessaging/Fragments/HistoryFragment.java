@@ -47,9 +47,6 @@ public class HistoryFragment extends Fragment {
 
         getHistory();
 
-        historyAdapter = new HistoryAdapter(getContext(), historyList);
-        recyclerView.setAdapter(historyAdapter);
-
         return view;
     }
 
@@ -65,10 +62,13 @@ public class HistoryFragment extends Fragment {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     History history = dataSnapshot.getValue(History.class);
 
-                    if (history.getSender().equals(userid) || history.getReceiver().equals(userid)) {
+                    if (history.getReceiverId().equals(userid)) {
                         historyList.add(history);
                     }
                 }
+
+                historyAdapter = new HistoryAdapter(getContext(), historyList);
+                recyclerView.setAdapter(historyAdapter);
             }
 
             @Override

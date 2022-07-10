@@ -1,19 +1,24 @@
 package com.ebookfrenzy.a8stickermessaging.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ebookfrenzy.a8stickermessaging.DashboardActivity;
 import com.ebookfrenzy.a8stickermessaging.Model.User;
 import com.ebookfrenzy.a8stickermessaging.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +35,10 @@ import java.util.List;
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactViewHolder>{
     private final List<User> userList;
     private final Context context;
-    private final String stickerid;
+    private final int stickerid;
 
-    public ContactListAdapter(List<User> user, Context context, String stickerid) {
+
+    public ContactListAdapter(List<User> user, Context context, int stickerid) {
         this.userList = user;
         this.context = context;
         this.stickerid = stickerid;
@@ -51,22 +58,52 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String receiver = contact.getUsername();
+                String receiverId = contact.getId();
+                String receiverName = contact.getUsername();
+
                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                sendSticker(firebaseUser.getUid(), receiver, stickerid);
+                String senderId = firebaseUser.getUid();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(senderId);
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        String senderName = user.getUsername();
+                        sendSticker(senderId, senderName, receiverId, receiverName, stickerid);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
+
     }
 
-    private void sendSticker(String sender, String receiver, String stickerid) {
+    private void sendSticker(String senderId, String senderName, String receiverId, String receiverName, int stickerid) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("sender", sender);
-        hashMap.put("receiver", receiver);
+        hashMap.put("senderId", senderId);
+        hashMap.put("senderName", senderName);
+        hashMap.put("receiverId", receiverId);
+        hashMap.put("receiverName", receiverName);
         hashMap.put("sticker", stickerid);
+        hashMap.put("timeStamp", System.currentTimeMillis());
 
-        databaseReference.child("History").push().setValue(hashMap);
+        databaseReference.child("History").push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(context, "Send successfully!", Toast.LENGTH_SHORT).show();
+                    context.startActivity(new Intent(context, DashboardActivity.class));
+                } else {
+                    Toast.makeText(context, "Unable to send!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 //    public void addStickerCount(DatabaseReference databaseReference, Integer id){
