@@ -1,28 +1,20 @@
 package com.ebookfrenzy.a8stickermessaging.Model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class User {
 
     private String id;
     private String username;
 
-    // stickerCount Map contains an ID and corresponding sent number
-    private Map<String, Integer> stickerCount;
-    // history ArrayList contains sender's list
-//    private ArrayList history;
+    private HashMap<String, Integer> stickerCount;
 
     public User(){}
 
-    public User(String id, String username){
+    public User(String id, String username, HashMap<String, Integer> stickerCount){
         this.id = id;
         this.username = username;
-        this.stickerCount = new HashMap<>();
-        for (int i = 0; i < new StickerMap().size(); i++){
-            stickerCount.put(String.valueOf(i), 0);
-        }
+        this.stickerCount = stickerCount;
     }
 
     public String getId() {
@@ -41,7 +33,16 @@ public class User {
         this.username = username;
     }
 
+    public HashMap<String, Integer> getStickerCount() {
+        return stickerCount;
+    }
 
-    //public Map<Integer, Integer> getStickerCount(){ return stickerCount; }
-    //public ArrayList getHistory() { return history; }
+    public void setStickerCount(HashMap<String, Integer> stickerCount) {
+        this.stickerCount = stickerCount;
+    }
+
+    public void addStickerCount(String stickerId) {
+        int oldCount = stickerCount.get(stickerId);
+        stickerCount.put(stickerId, oldCount+ 1);
+    }
 }

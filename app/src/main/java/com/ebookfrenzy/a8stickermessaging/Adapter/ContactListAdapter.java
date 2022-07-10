@@ -2,7 +2,6 @@ package com.ebookfrenzy.a8stickermessaging.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +36,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     private final Context context;
     private final int stickerid;
 
+    FirebaseUser firebaseUser;
+    DatabaseReference databaseReference;
 
     public ContactListAdapter(List<User> user, Context context, int stickerid) {
         this.userList = user;
@@ -61,9 +62,9 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 String receiverId = contact.getId();
                 String receiverName = contact.getUsername();
 
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 String senderId = firebaseUser.getUid();
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(senderId);
+                databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(senderId);
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -83,7 +84,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     }
 
     private void sendSticker(String senderId, String senderName, String receiverId, String receiverName, int stickerid) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("senderId", senderId);
@@ -98,6 +100,11 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Send successfully!", Toast.LENGTH_SHORT).show();
+                    /**
+                     * unresolve issue continuing add one to sticker without stopping
+                     * Jiayi Nie
+                     */
+                    //addStickerCount(senderId, stickerid);
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
                     Toast.makeText(context, "Unable to send!", Toast.LENGTH_SHORT).show();
@@ -106,25 +113,48 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         });
     }
 
-//    public void addStickerCount(DatabaseReference databaseReference, Integer id){
-//        databaseReference.child("Users")
-//                .child("StickerCount")
-//                .child(String.valueOf(id))
-//                .runTransaction(new Transaction.Handler() {
-//                    @NonNull
+    private void addStickerCount(String senderId, int stickerid) {
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Users").child(senderId)
+                .runTransaction(new Transaction.Handler() {
+                    @NonNull
+                    @Override
+                    public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                        User user = currentData.getValue(User.class);
+
+                        if (user == null) {
+                            return Transaction.success(currentData);
+                        }
+
+                        user.addStickerCount(stickerid + "_key");
+                        currentData.setValue(user);
+                        return Transaction.success(currentData);
+                    }
+
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+
+                    }
+                });
+
+//        databaseReference.child("Users").child(senderId)
+//                .addValueEventListener(new ValueEventListener() {
 //                    @Override
-//                    public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-//                        User user = currentData.getValue(User.class);
-//
-//                        return Transaction.success(currentData);
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        User user = snapshot.getValue(User.class);
+//                        user.addStickerCount(stickerid + "_key");
+//                        HashMap<String, Object> hashMap = new HashMap<>();
+//                        hashMap.put("stickerCount", user.getStickerCount());
+//                        snapshot.getRef().updateChildren(hashMap);
 //                    }
 //
 //                    @Override
-//                    public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+//                    public void onCancelled(@NonNull DatabaseError error) {
 //
 //                    }
 //                });
-//    }
+
+    }
 
     @Override
     public int getItemCount() {

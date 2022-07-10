@@ -84,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
                             String userid = firebaseUser.getUid();
 
                             // sticker sent Hashmap
-                            HashMap stickerCount = new HashMap<>();
+                            HashMap<String, Integer> stickerCount = new HashMap<>();
                             for (int i = 0; i < new StickerMap().size(); i++){
-                                stickerCount.put(String.valueOf(i), 0);
+                                stickerCount.put(String.valueOf(i) + "_key", 0);
                             }
 
                             databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
