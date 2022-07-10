@@ -1,7 +1,12 @@
 package com.ebookfrenzy.a8stickermessaging.Adapter;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +16,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ebookfrenzy.a8stickermessaging.DashboardActivity;
 import com.ebookfrenzy.a8stickermessaging.Model.User;
 import com.ebookfrenzy.a8stickermessaging.R;
+import com.ebookfrenzy.a8stickermessaging.ReceiveNotificationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +42,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     private final List<User> userList;
     private final Context context;
     private final int stickerid;
+    private String CHANNEL_ID = "NUMAD_22SU_Team11";
 
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
@@ -110,6 +118,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Send successfully!", Toast.LENGTH_SHORT).show();
                     addStickerCount(senderId, stickerid);
+                    createNotificationChannel();
+                    sendNotification();
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 } else {
                     Toast.makeText(context, "Unable to send!", Toast.LENGTH_SHORT).show();
@@ -147,6 +157,45 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
                     }
                 });
+    }
+
+    /** newly Added */
+    public void sendNotification(){
+        Intent intent = new Intent(context, ReceiveNotificationActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
+        PendingIntent callIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
+                new Intent(context, ReceiveNotificationActivity.class), 0);
+
+        Notification.Builder builder = new Notification.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("New mail from")
+                .setContentText("Subject")
+                .setAutoCancel(true)
+                .addAction(R.drawable.ic_launcher_foreground, "Call", callIntent)
+                .setContentIntent(pIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        // // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(0, builder.build());
+
+    }
+
+    /** Newly Added */
+    public void createNotificationChannel() {
+        // This must be called early because it must be called before a notification is sent.
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = CHANNEL_ID;
+            String description = "Notification Channel description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @Override
